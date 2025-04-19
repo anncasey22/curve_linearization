@@ -8,28 +8,27 @@ import matplotlib.pyplot as plt
 from models.cnn_model import CNNLinearizer
 from generate_curves import generate_curve_dataset
 
-# Set reproducibility
 torch.manual_seed(0)
 
-# ==== Step 1: Generate dataset ====
+#generate dataset
 print("Generating training data...")
-X, Y = generate_curve_dataset(n_samples=1000, length=100, epsilon=0.01)
+X, Y = generate_curve_dataset(n_samples=5000, length=100, epsilon=0.01)
 
-# Convert to PyTorch tensors
+#convert to pytorch tensors
 X_tensor = torch.tensor(X, dtype=torch.float32).unsqueeze(1)  # [batch, 1, seq_len]
 Y_tensor = torch.tensor(Y, dtype=torch.float32)               # [batch, seq_len]
 
-# Create DataLoader
+#dataloader
 dataset = TensorDataset(X_tensor, Y_tensor)
 loader = DataLoader(dataset, batch_size=32, shuffle=True)
 
-# ==== Step 2: Define the model ====
+#define the model
 model = CNNLinearizer(seq_len=100)
 criterion = nn.BCELoss()  # Binary cross-entropy for segmentation
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-# ==== Step 3: Train the model ====
-n_epochs = 10
+#train the model
+n_epochs = 50
 losses = []
 
 print("Training model...")
@@ -46,11 +45,11 @@ for epoch in range(n_epochs):
     losses.append(avg_loss)
     print(f"Epoch {epoch+1}/{n_epochs}, Loss: {avg_loss:.4f}")
 
-# ==== Step 4: Save the model ====
+#save the model
 torch.save(model.state_dict(), "cnn_linearizer.pt")
 print("Model saved as cnn_linearizer.pt")
 
-# ==== Step 5: Plot loss curve ====
+#plot loss curve
 plt.plot(losses)
 plt.title("Training Loss Over Epochs")
 plt.xlabel("Epoch")

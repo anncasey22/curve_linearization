@@ -23,8 +23,8 @@ def optimal_segment_fit(points, max_error=0.01):
     that approximate the curve within max_error per segment.
     """
     n = len(points)
-    dp = [float('inf')] * n  # dp[i] = min segments to reach point i
-    prev = [-1] * n  # previous split point
+    dp = [float('inf')] * n  #dp[i] = min segments to reach point i
+    prev = [-1] * n  #previous split point
     dp[0] = 0
 
     for i in range(1, n):
@@ -35,7 +35,7 @@ def optimal_segment_fit(points, max_error=0.01):
                     dp[i] = dp[j] + 1
                     prev[i] = j
 
-    # Reconstruct segment points
+    #reconstruct segment points
     result = []
     idx = n - 1
     while idx >= 0:
