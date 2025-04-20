@@ -1,58 +1,61 @@
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 import matplotlib.pyplot as plt
 
-from models.cnn_model import CNNLinearizer
-from generate_curves import generate_curve_dataset
+from generate_curves import generate_sine_wave
+from models.mlp_model import MLPBreakpointPredictor
 
-torch.manual_seed(0)
-
-#generate dataset
+# ==== Generate dataset ====
 print("Generating training data...")
-X, Y = generate_curve_dataset(n_samples=5000, length=100, epsilon=0.01)
+X = []  # noisy input
+Y = []  # clean ground truth
 
-#convert to pytorch tensors
-X_tensor = torch.tensor(X, dtype=torch.float32).unsqueeze(1)  # [batch, 1, seq_len]
-Y_tensor = torch.tensor(Y, dtype=torch.float32)               # [batch, seq_len]
+for _ in range(5000):
+    _, y_noisy, y_clean = generate_sine_wave(length=100, noise_level=0.05)
+    X.append(y_noisy)
+    Y.append(y_clean)
 
-#dataloader
+X_tensor = torch.tensor(X, dtype=torch.float32)
+Y_tensor = torch.tensor(Y, dtype=torch.float32)
+
+# ==== DataLoader ====
 dataset = TensorDataset(X_tensor, Y_tensor)
 loader = DataLoader(dataset, batch_size=32, shuffle=True)
 
-#define the model
-model = CNNLinearizer(seq_len=100)
-criterion = nn.BCELoss()  # Binary cross-entropy for segmentation
+# ==== Model ====
+model = MLPBreakpointPredictor(input_dim=100, output_dim=100)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-#train the model
+# ==== Training ====
+# ==== Training ====
 n_epochs = 50
 losses = []
-
 print("Training model...")
+
 for epoch in range(n_epochs):
     total_loss = 0.0
     for batch_x, batch_y in loader:
         optimizer.zero_grad()
-        outputs = model(batch_x)  # shape: [batch, seq_len]
-        loss = criterion(outputs, batch_y)
+        y_pred = model(batch_x)  # direct prediction from MLP
+        loss = nn.MSELoss()(y_pred, batch_y)
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
+
     avg_loss = total_loss / len(loader)
     losses.append(avg_loss)
     print(f"Epoch {epoch+1}/{n_epochs}, Loss: {avg_loss:.4f}")
 
-#save the model
-torch.save(model.state_dict(), "cnn_linearizer.pt")
-print("Model saved as cnn_linearizer.pt")
+# ==== Save model ====
+torch.save(model.state_dict(), "mlp_breakpoints.pt")
+print("Model saved as mlp_breakpoints.pt")
 
-#plot loss curve
+# ==== Plot ====
 plt.plot(losses)
 plt.title("Training Loss Over Epochs")
 plt.xlabel("Epoch")
-plt.ylabel("Binary Cross-Entropy Loss")
+plt.ylabel("MSE Loss")
 plt.grid(True)
 plt.show()
