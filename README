@@ -26,6 +26,14 @@ Tests
 
 Files
 - train.py: Trains the MLP model to predict curve breakpoints.
-- evaluate.py: Compares the performance of all three methods and generates plots.
-- utils: Contains implementations for the greedy and DP methods.
-- models/mlp_model.py: Defines the MLP architecture.
+- evaluate.py: Plots and compares the output of all three methods.
+- generate_curves.py: Generates synthetic sine data with noise for training and evaluation.
+- algorithms/linearize_greedy.py: Greedy linearization implementation.
+- algorithms/optimize_lines.py: Dynamic programming implementation.
+- models/mlp_model.py: Defines the MLP architecture for breakpoint prediction.
+
+How to Run:
+- Train the MLP: python train.py
+- Visual comparison of methods: python evaluate.py
+- Install dependencies with: pip install -r requirements.txt
+

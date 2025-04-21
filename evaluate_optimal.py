@@ -5,8 +5,8 @@ from typing import List, Tuple
 
 # Import your existing modules
 from models.mlp_model import MLPBreakpointPredictor
-from utils.linearize_greedy import linearize_curve
-from utils.optimize_lines import optimal_segment_fit, compute_segment_err
+from algorithms.linearize_greedy import linearize_curve
+from algorithms.optimize_lines import optimal_segment_fit, compute_segment_err
 
 
 class CurveLinearizationComparison:
@@ -236,7 +236,7 @@ class CurveLinearizationComparison:
 
 
 
-# Create a main function that will be used in evaluate.py
+# Create a main function that will be used in evaluate_optimal.py
 def main():
     # Generate or load test data
     # This is a placeholder - in your actual code, you would load your test data

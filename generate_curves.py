@@ -1,6 +1,6 @@
 
 import numpy as np
-from utils.linearize_greedy import linearize_curve
+from algorithms.linearize_greedy import linearize_curve
 
 def generate_sine_wave(length=100, freq_range=(1, 3), noise_level=0.05):
     """
