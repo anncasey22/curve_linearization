@@ -30,5 +30,5 @@ def linearize_curve(points, epsilon=0.01):
             result.append(points[i - 1])
             start = i - 1
 
-        result.append(points[i-1]) #final point
-        return result
+    result.append(points[i-1]) #final point
+    return result
