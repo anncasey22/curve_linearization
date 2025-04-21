@@ -1,0 +1,31 @@
+Overview
+- Developed an algorithm to linearize a curve, such as a sine wave, in the most optimal way.
+- Implemented and compared three approaches:
+  - Greedy algorithm
+  - Dynamic programming (DP)
+  - Neural network (multi-layer perceptron, or MLP)
+
+Methods
+- Greedy: Adds breakpoints where local linear approximation exceeds a fixed error threshold.
+- Dynamic Programming: Finds the minimum number of linear segments that globally stay within a maximum error.
+- Neural Network (MLP): Learns to predict breakpoints using supervised training on sine curves.
+
+Evaluation
+- Each method is evaluated on:
+  - Mean squared error (MSE) between the original and linearized curves
+  - Number of segments used
+  - MSE against a clean (ground truth) sine curve, when available
+
+Tests
+- Evaluated methods on a variety of test curves, including:
+  - Clean sine waves
+  - Noisy sine waves
+  - Flat lines
+  - High-frequency curves
+  - Random noise
+
+Files
+- train.py: Trains the MLP model to predict curve breakpoints.
+- evaluate.py: Compares the performance of all three methods and generates plots.
+- utils: Contains implementations for the greedy and DP methods.
+- models/mlp_model.py: Defines the MLP architecture.

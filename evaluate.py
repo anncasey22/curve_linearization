@@ -72,7 +72,7 @@ class CurveLinearizationComparison:
 
         # Apply greedy method
         greedy_points = linearize_curve(points, epsilon=epsilon)
-        greedy_mse = self.calculate_mse(points, greedy_points)
+        greedy_mse = self.calculate_mse(self.preprocess_data(x_values, ground_truth), greedy_points)
         self.results["Greedy"] = {
             "linearized_points": greedy_points,
             "segment_count": len(greedy_points) - 1,
@@ -227,15 +227,13 @@ class CurveLinearizationComparison:
             print("No results to summarize. Run compare_methods first.")
             return
 
-        print("\n========== Method Comparison Summary ==========")
+        print("\n Method Comparison Summary ")
         print(f"{'Method':<20} {'Segments':<10} {'MSE':<15} {'GT MSE':<15}")
-        print("-" * 60)
-
         for name, result in self.results.items():
             gt_mse_str = f"{result['gt_mse']:.6f}" if result['gt_mse'] is not None else "N/A"
             print(f"{name:<20} {result['segment_count']:<10} {result['mse']:.6f} {gt_mse_str}")
 
-        print("=" * 60)
+
 
 
 # Create a main function that will be used in evaluate.py
