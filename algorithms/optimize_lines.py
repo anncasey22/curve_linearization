@@ -19,8 +19,8 @@ def compute_segment_err(points, i, j):
 
 def optimal_segment_fit(points, max_error=0.01):
     """
-    Use dynamic programming to find the minimum number of linear segments
-    that approximate the curve within max_error per segment.
+    - use dynamic programming to find the minimum number of linear segments
+    that approximate the curve within max error per segment
     """
     n = len(points)
     dp = [float('inf')] * n  #dp[i] = min segments to reach point i

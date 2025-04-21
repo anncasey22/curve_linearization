@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from generate_curves import generate_sine_wave
 from models.mlp_model import MLPBreakpointPredictor
 
-# ==== Generate dataset ====
+#dataset
 print("Generating training data...")
 X = []  # noisy input
 Y = []  # clean ground truth
@@ -20,16 +20,15 @@ for _ in range(5000):
 X_tensor = torch.tensor(X, dtype=torch.float32)
 Y_tensor = torch.tensor(Y, dtype=torch.float32)
 
-# ==== DataLoader ====
+#dataloader
 dataset = TensorDataset(X_tensor, Y_tensor)
 loader = DataLoader(dataset, batch_size=32, shuffle=True)
 
-# ==== Model ====
+#model
 model = MLPBreakpointPredictor(input_dim=100, output_dim=100)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-# ==== Training ====
-# ==== Training ====
+#training
 n_epochs = 50
 losses = []
 print("Training model...")
@@ -48,11 +47,11 @@ for epoch in range(n_epochs):
     losses.append(avg_loss)
     print(f"Epoch {epoch+1}/{n_epochs}, Loss: {avg_loss:.4f}")
 
-# ==== Save model ====
+#save model
 torch.save(model.state_dict(), "mlp_breakpoints.pt")
 print("Model saved as mlp_breakpoints.pt")
 
-# ==== Plot ====
+#plot
 plt.plot(losses)
 plt.title("Training Loss Over Epochs")
 plt.xlabel("Epoch")

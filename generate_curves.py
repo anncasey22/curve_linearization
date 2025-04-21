@@ -4,8 +4,8 @@ from algorithms.linearize_greedy import linearize_curve
 
 def generate_sine_wave(length=100, freq_range=(1, 3), noise_level=0.05):
     """
-    Generate sine wave with random frequency and optional noise.
-    Returns:
+    -generate sine wave with random frequency and optional noise.
+    -return
         x: np.array of shape [length]
         y_noisy: np.array of shape [length]
         y_clean: np.array of shape [length] (true sine)
@@ -18,7 +18,7 @@ def generate_sine_wave(length=100, freq_range=(1, 3), noise_level=0.05):
 
 def generate_curve_dataset(n_samples=1000, length=100, epsilon=0.02):
     """
-    Generate a dataset of (y_values, breakpoint_labels) for training the CNN.
+    -generate a dataset of (y_values, breakpoint_labels) for training the CNN.
     """
     X = []
     Y = []
@@ -29,7 +29,7 @@ def generate_curve_dataset(n_samples=1000, length=100, epsilon=0.02):
         points = list(zip(x_vals, y))
         segments = linearize_curve(points, epsilon)
 
-        # Label breakpoints: 1 if it's a segment endpoint, else 0
+        # breakpoints: 1 if it's a segment endpoint, else 0
         segment_indices = set()
         for pt in segments:
             idx = np.argmin(np.abs(x_vals - pt[0]))
